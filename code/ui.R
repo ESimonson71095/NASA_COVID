@@ -34,24 +34,19 @@ shinyUI(fluidPage(
     
     skin = "green",
       
-    dashboardHeader(title="Biodiversity in National Parks", titleWidth = 300),
+    dashboardHeader(title="Fire Trendr", titleWidth = 300),
     
     dashboardSidebar(width = 300,
       sidebarMenu(
         HTML(paste0(
           "<br>",
-          "<a href='https://www.nps.gov/index.htm' target='_blank'><img style = 'display: block; margin-left: auto; margin-right: auto;' src='US-NationalParkService-Logo.svg' width = '186'></a>",
+          "<a href='https://firms.modaps.eosdis.nasa.gov/' target='_blank'><img style = 'display: block; margin-left: auto; margin-right: auto;' src='NASA_FIRMS.svg' width = '186'></a>",
           "<br>",
-          "<p style = 'text-align: center;'><small><a href='https://www.nps.gov/subjects/hfc/arrowhead-artwork.htm' target='_blank'>NPS logo disclaimer</a></small></p>",
+          "<p style = 'text-align: center;'><small><a href='https://firms.modaps.eosdis.nasa.gov/map/' target='_blank'> Link to FIRMS Fire Map</a></small></p>",
           "<br>"
         )),
         menuItem("Home", tabName = "home", icon = icon("home")),
-        menuItem("Parks Map", tabName = "map", icon = icon("thumbtack")),
-        menuItem("Species Tables", tabName = "table", icon = icon("table")),
-        menuItem("Species Tree", tabName = "tree", icon = icon("random", lib = "glyphicon")),
-        menuItem("Species Charts", tabName = "charts", icon = icon("stats", lib = "glyphicon")),
-        menuItem("Species Choropleth Map", tabName = "choropleth", icon = icon("map marked alt")),
-        menuItem("Releases", tabName = "releases", icon = icon("tasks")),
+        menuItem("Time Series Figures", tabName = "charts", icon = icon("stats", lib = "glyphicon")),
         HTML(paste0(
           "<br><br><br><br><br><br><br><br><br>",
           "<table style='margin-left:auto; margin-right:auto;'>",
@@ -86,53 +81,21 @@ shinyUI(fluidPage(
           
         ),
         
-        tabItem(tabName = "map",
-        
-          # parks map section
-          leafletOutput("parksMap") %>% withSpinner(color = "green")
-                
-        ),
-        
-        tabItem(
-          # species data section
-          tabName = "table", dataTableOutput("speciesDataTable") %>% withSpinner(color = "green")
-          
-        ),
-        
-        tabItem(tabName = "tree", 
-              
-          # collapsible species tree section
-          includeMarkdown("www/tree.md"),
-          column(3, uiOutput("parkSelectComboTree")),
-          column(3, uiOutput("categorySelectComboTree")),
-          collapsibleTreeOutput('tree', height='700px') %>% withSpinner(color = "green")
-          
-        ),
+
+  
       
         tabItem(tabName = "charts",
           
           # ggplot2 species charts section
           includeMarkdown("www/charts.md"),
-          fluidRow(column(3, uiOutput("categorySelectComboChart"))),
-          column(6, plotOutput("ggplot2Group1") %>% withSpinner(color = "green")),
-          column(6, plotOutput("ggplot2Group2") %>% withSpinner(color = "green"))
+          
+          
+          fluidRow(column(3, uiOutput("MCD64A1_ByState_Plot"))),
+          column(6, plotOutput("ggplotAllLand")),
+          column(6, plotOutput("ggplotFedLand"))
           
         ), 
         
-        tabItem(tabName = "choropleth",
-          
-          # choropleth species map section
-          includeMarkdown("www/choropleth.md"),
-          fluidRow(
-            column(3, uiOutput("statesSelectCombo")),
-            column(3, uiOutput("categorySelectComboChoro"))
-          ),
-          fluidRow(
-            column(3,tableOutput('stateCategoryList') %>% withSpinner(color = "green")),
-            column(9,leafletOutput("choroplethCategoriesPerState") %>% withSpinner(color = "green"))
-          )
-          
-        ),
         
         tabItem(tabName = "releases", includeMarkdown("www/releases.md"))
               
