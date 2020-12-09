@@ -116,7 +116,7 @@ for(landowner in 1:2){
 }
 
 # Remove Last Weeks of 2020 w/o data
-modisAF.endweek <- length(which(!is.na(modis.af[2,5,,20])))
+modisAF.endweek <- length(which(!is.na(modis.af[1,5,,20])))
 
 # Create dimnames for the table so that columns and rows are named when CSV is exported
 dimnames(modis.af) <- list(c("Statewide", "Federal"),c(),1:52,2001:2020)
@@ -165,7 +165,7 @@ for(landowner in 1:2){
 }
 
 # Remove Last Weeks of 2020 w/o data
-viirsAF.endweek <- length(which(!is.na(viirs.af[2,5,,9]))) # [AllLand, California, ,2020]
+viirsAF.endweek <- length(which(!is.na(viirs.af[1,5,,9]))) # [AllLand, California, ,2020]
 
 # Create dimnames for the table so that columns and rows are named when CSV is exported
 dimnames(viirs.af) <- list(c("Statewide", "Federal"),c(),1:52,2012:2020)
