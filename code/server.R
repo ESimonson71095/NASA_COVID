@@ -394,7 +394,7 @@ plotInputViirsAF2 <- function(){
   viirs.af[is.na(viirs.af)] <- 0	#Set NA values to zero for cumsum to work
   plot(0,0,xlim=c(0,53),ylim=c(1,max(colSums(viirs.af[LT3(),ss3(),,],na.rm=T))),col="white",xlab="Weeks Since Jan 1", ylab="VIIRS (SUOMI-NPP) Weekly Fire Counts (#)",main=paste(StateNames[ss3()]))
   for(i in 1:length(2012:2020)){
-    lines(1:52, cumsum(viirs.af[LT3(),ss3(),,i]),col=rev(heat.colors(8))[i])
+    lines(1:52, cumsum(viirs.af[LT3(),ss3(),,i]),col=rev(heat.colors(9))[i])
   }
   lines(1:52, cumsum(rowMeans(viirs.af[LT3(),ss3(),,1:9],na.rm=T)),lwd=3,col=1)
   lines(1:52, cumsum(viirs.af[LT3(),ss3(),,9]),lwd=3,col=rev(heat.colors(20))[20],lty=2)
