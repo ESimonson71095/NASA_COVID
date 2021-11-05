@@ -230,7 +230,7 @@ MCD64A1_TimeSeries_Plot <- function(){
    lines(1:12,cumsum(rowMeans(modis.ba[LT(),ss(),,],na.rm=T)),lwd=3,col=1)
    lines(1:12,cumsum(modis.ba[LT(),ss(),,20]),lwd=3,col=rev(heat.colors(21))[21],lty=2)
    lines(1:12,cumsum(modis.ba[LT(),ss(),,21]),lwd=3,col=3)
-   legend(1,ymax,c(2001:2020),col=rev(heat.colors(21)),lty=c(rep(1,20),2),ncol=3,lwd=2,bty="n",cex=0.7)
+   legend(1,ymax,c(2001:2020),col=rev(heat.colors(20)),lty=c(rep(1,19),2),ncol=3,lwd=2,bty="n",cex=0.7)
    legend(1,ymax*.7,c(2021),col=3,lwd=2,bty="n",cex=0.7)
    legend(1,ymax*.65,"mean",col=1,lwd=2,bty="n",cex=0.7)
  }
