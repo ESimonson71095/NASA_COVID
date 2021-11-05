@@ -17,12 +17,12 @@ library(raster)
 # THIS SECTION CREATES A 4D ARRAY [Landowner, State, Month, Year] FROM THE MCD64A1 DATA TO BE USED FOR PLOT CREATION
 
 #Specify last month in archive for 2020 (6=June)
-modis.endmonth <- 11
+modis.endmonth <- 9
 
 #Set up array to organize state BA data
 modis.states <- state.name
-modis.ba <- array(0,c(2,length(modis.states),12,length(2000:2020)))
-modis.years <- 2000:2020
+modis.ba <- array(0,c(2,length(modis.states),12,length(2001:2021)))
+modis.years <- 2001:2021
 modis.months <- 1:12
 #LandType <- c("Federal", "Statewide")
 LandType <- c("Statewide", "Federal")
@@ -66,7 +66,7 @@ modis.ba[,,(modis.endmonth+1):12,21] <- NA
 modis.ba <- modis.ba * ((500*500)/(1000*1000))
 
 # Create dimnames for the table so that columns and rows are named when CSV is exported
-dimnames(modis.ba) <- list(c("Statewide", "Federal"),c(),1:12,2000:2020)
+dimnames(modis.ba) <- list(c("Statewide", "Federal"),c(),1:12,2001:2021)
 
 #####################################################################################################################################################
 
@@ -204,19 +204,19 @@ shinyServer(function(input, output) {
  # CREATE A REACTIVE PLOT THAT RESPONDS TO THE USER SELECTION
  # IMBED THE REACTIVE VARIABLEs 'SS()' AND 'LT()' INTO THE PLOT CODE
  
- MCD64A1_TimeSeries_Plot <- function(){
+MCD64A1_TimeSeries_Plot <- function(){
    plot(0,0,xlim=c(1,12),ylim=c(1,max(modis.ba[LT(),ss(),,],na.rm=T)),col="white",xlab="", ylab="",main=modis.states[ss()])
    mtext(expression(paste("MCD64A1 Burned Area (km"^"2",")")),2,cex=1.4,line=2.1)
    mtext("Months Since Jan.",1,cex=1.4,line=2.1)
-   for(i in 1:length(2000:2020)){
+   for(i in 1:length(2001:2021)){
      lines(1:12, modis.ba[LT(),ss(),,i],col=rev(heat.colors(21))[i])
    }
    lines(1:12,rowMeans(modis.ba[LT(),ss(),,],na.rm=T),lwd=3,col=1)
-   lines(1:12,modis.ba[LT(),ss(),,21],lwd=3,col=rev(heat.colors(21))[21],lty=2)
-   #lines(1:12,modis.ba[LT(),ss(),,21],lwd=3,col=3)
-   legend(1,max(modis.ba[LT(),ss(),,],na.rm=T),c(2000:2020),col=rev(heat.colors(21)),lty=c(rep(1,20),2),ncol=3,lwd=2,bty="n",cex=0.7)
-   #legend(1,max(modis.ba[LT(),ss(),,],na.rm=T)*.7,c(2020),col=3,lwd=2,bty="n",cex=0.7)
-   legend(1,max(modis.ba[LT(),ss(),,],na.rm=T)*.7,"mean",col=1,lwd=2,bty="n",cex=0.7)
+   lines(1:12,modis.ba[LT(),ss(),,20],lwd=3,col=rev(heat.colors(20))[20],lty=2)
+   lines(1:12,modis.ba[LT(),ss(),,21],lwd=3,col=3)
+   legend(1,max(modis.ba[LT(),ss(),,],na.rm=T),c(2001:2020),col=rev(heat.colors(20)),lty=c(rep(1,19),2),ncol=3,lwd=2,bty="n",cex=0.7)
+   legend(1,max(modis.ba[LT(),ss(),,],na.rm=T)*.7,c(2021),col=3,lwd=2,bty="n",cex=0.7)
+   legend(1,max(modis.ba[LT(),ss(),,],na.rm=T)*.65,"mean",col=1,lwd=2,bty="n",cex=0.7)
  }
  
  MCD64A1_Cumulative_TimeSeries_Plot  <- function(){
@@ -224,15 +224,15 @@ shinyServer(function(input, output) {
    plot(0,0,xlim=c(1,12),ylim=c(0,ymax),col="white",xlab="", ylab="",main=modis.states[ss()])
    mtext(expression(paste("MCD64A1 Burned Area (km"^"2",")")),2,cex=1.4,line=2.1)
    mtext("Months Since Jan.",1,cex=1.4,line=2.1)
-   for(i in 1:length(2000:2020)){
+   for(i in 1:length(2001:2020)){
      lines(1:12, cumsum(modis.ba[LT(),ss(),,i]),col=rev(heat.colors(21))[i])
    }
    lines(1:12,cumsum(rowMeans(modis.ba[LT(),ss(),,],na.rm=T)),lwd=3,col=1)
-   lines(1:12,cumsum(modis.ba[LT(),ss(),,21]),lwd=3,col=rev(heat.colors(21))[21],lty=2)
-   #lines(1:12,cumsum(modis.ba[LT(),ss(),,21]),lwd=3,col=3)
-   legend(1,ymax,c(2000:2020),col=rev(heat.colors(21)),lty=c(rep(1,20),2),ncol=3,lwd=2,bty="n",cex=0.7)
-   #legend(1,ymax*.7,c(2020),col=3,lwd=2,bty="n",cex=0.7)
-   legend(1,ymax*.7,"mean",col=1,lwd=2,bty="n",cex=0.7)
+   lines(1:12,cumsum(modis.ba[LT(),ss(),,20]),lwd=3,col=rev(heat.colors(21))[21],lty=2)
+   lines(1:12,cumsum(modis.ba[LT(),ss(),,21]),lwd=3,col=3)
+   legend(1,ymax,c(2001:2020),col=rev(heat.colors(21)),lty=c(rep(1,20),2),ncol=3,lwd=2,bty="n",cex=0.7)
+   legend(1,ymax*.7,c(2021),col=3,lwd=2,bty="n",cex=0.7)
+   legend(1,ymax*.65,"mean",col=1,lwd=2,bty="n",cex=0.7)
  }
 
  # RENDER REACTIVE PLOTS ON THE OPEN TAB 
