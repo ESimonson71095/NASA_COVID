@@ -123,7 +123,7 @@ dimnames(modis.af) <- list(c("Statewide", "Federal"),c(),1:52,2001:2021)
 
 # Clean Up
 modis.af[is.na(modis.af)] <- 0
-modis.af[,,(modisAF.endweek+1):52,21] <- NA
+#modis.af[,,(modisAF.endweek+1):52,21] <- NA
 
 #####################################################################################################################################################
 
@@ -172,7 +172,7 @@ dimnames(viirs.af) <- list(c("Statewide", "Federal"),c(),1:52,2012:2021)
 
 # Clean Up
 viirs.af[is.na(viirs.af)] <- 0
-viirs.af[,,(viirsAF.endweek+1):52,10] <- NA
+#viirs.af[,,(viirsAF.endweek+1):52,10] <- NA
 
 #####################################################################################################################################################
 
@@ -290,7 +290,7 @@ output$MCD64A1_dto <- downloadHandler(
 # Plot time series of AF
  plotInputAF <- function(){
     modis.af[is.na(modis.af)] <- 0
-    modis.af[LT2(),ss2(),(modisAF.endweek+1):52,21] <- NA
+    #modis.af[LT2(),ss2(),(modisAF.endweek+1):52,21] <- NA
     plot(0,0,xlim=c(0,53),ylim=c(1,max(modis.af[LT2(),ss2(),,],na.rm=T)),col="white",xlab="Weeks Since Jan 1", ylab="MODIS (TERRA/AQUA) Weekly Fire Counts (#)",main=paste(StateNames[ss2()]))
     for(i in 1:length(2001:2021)){
        lines(1:52, modis.af[LT2(),ss2(),,i],col=rev(heat.colors(21))[i])
@@ -375,7 +375,7 @@ LT3_Name <- reactive(if(LT3() == 1){
 # Plot time series of AF
 plotInputViirsAF <- function(){
   viirs.af[is.na(viirs.af)] <- 0
-  viirs.af[LT3(),ss3(),(viirsAF.endweek+1):52,10] <- NA
+  #viirs.af[LT3(),ss3(),(viirsAF.endweek+1):52,10] <- NA
   plot(0,0,xlim=c(0,53),ylim=c(1,max(viirs.af[LT3(),ss3(),,],na.rm=T)),col="white",xlab="Weeks Since Jan 1", ylab="VIIRS (SUOMI-NPP) Weekly Fire Counts (#)",main=paste(StateNames[ss3()]))
   for(i in 1:length(2012:2021)){
     lines(1:52, viirs.af[LT3(),ss3(),,i],col=rev(heat.colors(10))[i])
